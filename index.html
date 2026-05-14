@@ -106,7 +106,7 @@
         <button id="startBtn">▶️ 開始</button>
         <div id="mainContent" style="display: none;">    
             <img id="cakeImage" src="friereninchest.png" alt="Cake Box" class="fade" />
-            <p id="caption">不好!芙莉蓮被寶箱怪騙了!!快去救她!!! (⁠點擊寶箱救芙莉蓮)</p>
+            <p id="caption">不好!芙莉蓮被寶箱怪騙了!!快去救她!!!Σ(っ°Д°;)っ (⁠點擊寶箱救芙莉蓮)</p>
         </div>
     </div>
 
@@ -163,39 +163,55 @@ cakeImage.addEventListener("click", () => {
         };
 
     // STEP 1
-    // NEW PHOTO → CAKE
-    } else if (step === 1) {
+// CHESTMOB → TEXT ONLY
+} else if (step === 1) {
 
-        // Stop first bgm and start birthday bgm
-        audioBefore.pause();
-        audioBefore.currentTime = 0;
+    cakeImage.classList.add("hidden");
 
-        audioAfter.load();
-        audioAfter.play();
+    caption.textContent =
+        "嗯...這是?!! ko..ko-kore wa?!!";
 
-        cakeImage.classList.remove("fade-in");
-        cakeImage.classList.add("fade-out");
+    step++;
 
-        const newImg = new Image();
-        newImg.src = "cakewithfire.png";
 
-        newImg.onload = () => {
-            setTimeout(() => {
-                cakeImage.src = newImg.src;
+// STEP 2
+// TEXT ONLY → CAKE
+} else if (step === 2) {
 
-                caption.textContent =
-                    "老哥30歲生日快樂！！(⁠ㆁ⁠ω⁠ㆁ)⁠ 點擊蛋糕吹蠟燭吧 ꒰⁠⑅⁠-⁠༚⁠-꒱⁠˖ ~~";
+    // bring image back
+    cakeImage.classList.remove("hidden");
 
-                cakeImage.classList.remove("fade-out");
-                cakeImage.classList.add("fade-in");
+    // Stop first bgm and start birthday bgm
+    audioBefore.pause();
+    audioBefore.currentTime = 0;
 
-                step++;
-            }, 300);
-        };
+    audioAfter.load();
+    audioAfter.play();
+
+    cakeImage.classList.remove("fade-in");
+    cakeImage.classList.add("fade-out");
+
+    const newImg = new Image();
+    newImg.src = "cakewithfire.png";
+
+    newImg.onload = () => {
+        setTimeout(() => {
+
+            cakeImage.src = newImg.src;
+
+            caption.textContent =
+                "老哥30歲生日快樂！！(～￣▽￣)～ (點擊蛋糕吹蠟燭)";
+
+            cakeImage.classList.remove("fade-out");
+            cakeImage.classList.add("fade-in");
+
+            step++;
+        }, 300);
+    };
 
     // STEP 2
     // CAKE → GIF
-    } else if (step === 2) {
+    } else if (step === 3) {
 
         cakeImage.classList.remove("fade-in");
         cakeImage.classList.add("fade-out");
