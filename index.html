@@ -139,7 +139,6 @@
 cakeImage.addEventListener("click", () => {
 
     // STEP 0
-    // friereninchest.png → NEW PHOTO
     if (step === 0) {
 
         cakeImage.classList.remove("fade-in");
@@ -150,6 +149,7 @@ cakeImage.addEventListener("click", () => {
 
         newImg.onload = () => {
             setTimeout(() => {
+
                 cakeImage.src = newImg.src;
 
                 caption.textContent =
@@ -163,54 +163,48 @@ cakeImage.addEventListener("click", () => {
         };
 
     // STEP 1
-// CHESTMOB → TEXT ONLY
-} else if (step === 1) {
+    } else if (step === 1) {
 
-    cakeImage.classList.add("hidden");
+        cakeImage.classList.add("hidden");
 
-    caption.textContent =
-        "嗯...這是?!! ko..ko-kore wa?!!";
+        caption.textContent =
+            "嗯...這是?!! ko..ko-kore wa?!!";
 
-    step++;
-
-
-// STEP 2
-// TEXT ONLY → CAKE
-} else if (step === 2) {
-
-    // bring image back
-    cakeImage.classList.remove("hidden");
-
-    // Stop first bgm and start birthday bgm
-    audioBefore.pause();
-    audioBefore.currentTime = 0;
-
-    audioAfter.load();
-    audioAfter.play();
-
-    cakeImage.classList.remove("fade-in");
-    cakeImage.classList.add("fade-out");
-
-    const newImg = new Image();
-    newImg.src = "cakewithfire.png";
-
-    newImg.onload = () => {
-        setTimeout(() => {
-
-            cakeImage.src = newImg.src;
-
-            caption.textContent =
-                "老哥30歲生日快樂！！(～￣▽￣)～ (點擊蛋糕吹蠟燭)";
-
-            cakeImage.classList.remove("fade-out");
-            cakeImage.classList.add("fade-in");
-
-            step++;
-        }, 300);
-    };
+        step++;
 
     // STEP 2
-    // CAKE → GIF
+    } else if (step === 2) {
+
+        cakeImage.classList.remove("hidden");
+
+        audioBefore.pause();
+        audioBefore.currentTime = 0;
+
+        audioAfter.load();
+        audioAfter.play();
+
+        cakeImage.classList.remove("fade-in");
+        cakeImage.classList.add("fade-out");
+
+        const newImg = new Image();
+        newImg.src = "cakewithfire.png";
+
+        newImg.onload = () => {
+            setTimeout(() => {
+
+                cakeImage.src = newImg.src;
+
+                caption.textContent =
+                    "老哥30歲生日快樂！！(～￣▽￣)～ (點擊蛋糕吹蠟燭)";
+
+                cakeImage.classList.remove("fade-out");
+                cakeImage.classList.add("fade-in");
+
+                step++;
+            }, 300);
+        };
+
+    // STEP 3
     } else if (step === 3) {
 
         cakeImage.classList.remove("fade-in");
@@ -221,6 +215,7 @@ cakeImage.addEventListener("click", () => {
 
         newImg.onload = () => {
             setTimeout(() => {
+
                 cakeImage.src = newImg.src;
 
                 caption.textContent =
