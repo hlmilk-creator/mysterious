@@ -114,7 +114,7 @@
     <audio id="audioAfter" src="birthdaybgm.mp3" preload="none" loop></audio>
 
     <script>
-        const preloadImages = ["cakewithfire.png", "blowcake.gif"];
+        const preloadImages = ["chestmob.png", "cakewithfire.png", "blowcake.gif"];
         preloadImages.forEach(src => {
             const img = new Image();
             img.src = src;
@@ -136,48 +136,88 @@
             mainContent.style.display = "block"; // show cake & caption
         });
 
-        cakeImage.addEventListener("click", () => {
-        if (step === 0) {
-            // Stop the first bgm and play the second
-            audioBefore.pause();
-            audioBefore.currentTime = 0;
+cakeImage.addEventListener("click", () => {
 
-            audioAfter.load();
-            audioAfter.play();
+    // STEP 0
+    // friereninchest.png → NEW PHOTO
+    if (step === 0) {
 
-            // Box → Cake
-            cakeImage.classList.remove("fade-in");
-            cakeImage.classList.add("fade-out");
+        cakeImage.classList.remove("fade-in");
+        cakeImage.classList.add("fade-out");
 
-            const newImg = new Image();
-            newImg.src = "cakewithfire.png";
-            newImg.onload = () => {
-                setTimeout(() => {
-                    cakeImage.src = newImg.src;
-                    caption.textContent = "老哥30歲生日快樂！！(⁠ㆁ⁠ω⁠ㆁ)⁠ 點擊蛋糕吹蠟燭吧 ꒰⁠⑅⁠-⁠༚⁠-꒱⁠˖ ~~";
-                    cakeImage.classList.remove("fade-out");
-                    cakeImage.classList.add("fade-in");
-                    step++;
-                }, 300); //shorter delay after load is confirmed
-            };
-        } else if (step === 1) {
-            // Cake → Candle blowing GIF
-            cakeImage.classList.remove("fade-in");
-            cakeImage.classList.add("fade-out");
+        const newImg = new Image();
+        newImg.src = "chestmob.png";
 
-            const newImg = new Image();
-            newImg.src = "blowcake.gif";
-            newImg.onload = () => {
-                setTimeout(() => {
-                    cakeImage.src = newImg.src;
-                    caption.textContent = "祝你以後都平安健康,想要甚麼有甚麼(就是心想事成啦) (⁠ ^ ▽ ^ )";
-                    cakeImage.classList.remove("fade-out");
-                    cakeImage.classList.add("fade-in");
-                    step++;
-                }, 300);
-            }
-        }
-        });
+        newImg.onload = () => {
+            setTimeout(() => {
+                cakeImage.src = newImg.src;
+
+                caption.textContent =
+                    "啊咧...芙莉蓮不見了欸!寶箱怪裡好像有甚麼...(點擊寶箱打倒寶箱怪)";
+
+                cakeImage.classList.remove("fade-out");
+                cakeImage.classList.add("fade-in");
+
+                step++;
+            }, 300);
+        };
+
+    // STEP 1
+    // NEW PHOTO → CAKE
+    } else if (step === 1) {
+
+        // Stop first bgm and start birthday bgm
+        audioBefore.pause();
+        audioBefore.currentTime = 0;
+
+        audioAfter.load();
+        audioAfter.play();
+
+        cakeImage.classList.remove("fade-in");
+        cakeImage.classList.add("fade-out");
+
+        const newImg = new Image();
+        newImg.src = "cakewithfire.png";
+
+        newImg.onload = () => {
+            setTimeout(() => {
+                cakeImage.src = newImg.src;
+
+                caption.textContent =
+                    "老哥30歲生日快樂！！(⁠ㆁ⁠ω⁠ㆁ)⁠ 點擊蛋糕吹蠟燭吧 ꒰⁠⑅⁠-⁠༚⁠-꒱⁠˖ ~~";
+
+                cakeImage.classList.remove("fade-out");
+                cakeImage.classList.add("fade-in");
+
+                step++;
+            }, 300);
+        };
+
+    // STEP 2
+    // CAKE → GIF
+    } else if (step === 2) {
+
+        cakeImage.classList.remove("fade-in");
+        cakeImage.classList.add("fade-out");
+
+        const newImg = new Image();
+        newImg.src = "blowcake.gif";
+
+        newImg.onload = () => {
+            setTimeout(() => {
+                cakeImage.src = newImg.src;
+
+                caption.textContent =
+                    "祝你以後都平安健康,想要甚麼有甚麼(就是心想事成啦) (⁠ ^ ▽ ^ )";
+
+                cakeImage.classList.remove("fade-out");
+                cakeImage.classList.add("fade-in");
+
+                step++;
+            }, 300);
+        };
+    }
+});
 
         document.addEventListener("visibilitychange", ()=>{
             if (document.hidden){
