@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0"/>
+    <title>李大熊ㄟ生日禮物</title>
+    <link rel="preload" as="image" href="cakewithfire.png">
+    <link rel="preload" as="image" href="blowcake.gif">
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zpix-pixel-font/css/zpix-pixel.css"> -->
+
+    <style>
+        @font-face {
+            font-family: "Zpix";
+            src: url("zpix.ttf") format("truetype");
+            font-display: swap;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            width: 100vw;
+            background: linear-gradient(#c9a7eb, #fbb6b6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Zpix", monospace; /*pixelfont*/
+            image-rendering: pixelated;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: center;
+        }
+
+        /*Responsive window box */
+        .window {
+            width: 90%; /* taking up most of the screen width */
+            max-width: 400px; /*but never bigger than 400px */
+            background: #fff8dc;
+            border: 4px solid #f2d16b;
+            border-radius: 8px;
+            box-shadow: 4px 4px #0003;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .container {
+            position:relative;
+            /*width: 90%;
+            max-width: 400px;
+            aspect-ratio: 1 / 1;*/
+            font-family: "Zpix", monospace;
+        }
+        .container img {
+            position:relative;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 1;
+            transition: opacity 0.6s ease;
+            cursor: pointer;
+        }
+
+        #cakeImage {
+            max-width: 90%;
+            height: auto;
+            cursor: pointer;
+            transition: opacity 1s ease;
+        }
+
+        .fade-out {
+            opacity: 0;
+        }
+
+        .fade-in {
+            opacity: 1;
+        }
+
+        #caption {
+            /*margin-top: 20px;*/
+            /*font-size: 1.2em;*/
+            font-size: 1em;
+            margin: 1em auto 0;
+            color: #555;
+            padding: 0 1rem;
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .container img:not(.hidden) {
+            animation: fadeIn 0.6s ease;
+        }
+
+    </style>
+</head>    
+<body>
+    <div class="container">
+        <button id="startBtn">▶️ 開始</button>
+        <div id="mainContent" style="display: none;">    
+            <img id="cakeImage" src="cakebox.png" alt="Cake Box" class="fade" />
+            <p id="caption">點擊盒子一下，打開看看吧~ (⁠￣⁠︶⁠￣⁠)</p>
+        </div>
+    </div>
+
+    <audio id="audioBefore" src="bgm.mp3" preload="auto"></audio>
+    <audio id="audioAfter" src="birthdaybgm.mp3" preload="none" loop></audio>
+
+    <script>
+        const preloadImages = ["cakewithfire.png", "blowcake.gif"];
+        preloadImages.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+        
+        const cakeImage = document.getElementById("cakeImage");
+        const caption = document.getElementById("caption");
+
+        const audioBefore = document.getElementById("audioBefore");
+        const audioAfter = document.getElementById("audioAfter");
+        const startBtn = document.getElementById("startBtn");
+        const mainContent = document.getElementById("mainContent");
+        let step = 0;
+
+        //play bgm when page load
+        startBtn.addEventListener("click", () => {
+            audioBefore.play();
+            startBtn.style.display = "none"; // hide button
+            mainContent.style.display = "block"; // show cake & caption
+        });
+
+        cakeImage.addEventListener("click", () => {
+        if (step === 0) {
+            // Stop the first bgm and play the second
+            audioBefore.pause();
+            audioBefore.currentTime = 0;
+
+            audioAfter.load();
+            audioAfter.play();
+
+            // Box → Cake
+            cakeImage.classList.remove("fade-in");
+            cakeImage.classList.add("fade-out");
+
+            const newImg = new Image();
+            newImg.src = "cakewithfire.png";
+            newImg.onload = () => {
+                setTimeout(() => {
+                    cakeImage.src = newImg.src;
+                    caption.textContent = "李大熊生日快樂！！(⁠ㆁ⁠ω⁠ㆁ)⁠ 點擊蛋糕吹蠟燭吧 ꒰⁠⑅⁠-⁠༚⁠-꒱⁠˖ ~~";
+                    cakeImage.classList.remove("fade-out");
+                    cakeImage.classList.add("fade-in");
+                    step++;
+                }, 300); //shorter delay after load is confirmed
+            };
+        } else if (step === 1) {
+            // Cake → Candle blowing GIF
+            cakeImage.classList.remove("fade-in");
+            cakeImage.classList.add("fade-out");
+
+            const newImg = new Image();
+            newImg.src = "blowcake.gif";
+            newImg.onload = () => {
+                setTimeout(() => {
+                    cakeImage.src = newImg.src;
+                    caption.textContent = "今年也要平安健康~要繼續好好為國效勞哦 (⁠ ^ ▽ ^ )";
+                    cakeImage.classList.remove("fade-out");
+                    cakeImage.classList.add("fade-in");
+                    step++;
+                }, 300);
+            }
+        }
+        });
+
+        document.addEventListener("visibilitychange", ()=>{
+            if (document.hidden){
+                audioBefore.pause();
+                audioAfter.pause();
+            } else {
+                //Resume music
+                if (step === 0) {
+                    audioBefore.play();
+                } else if (step >= 1) {
+                    audioAfter.play();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
